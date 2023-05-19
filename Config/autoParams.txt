@@ -1,0 +1,8 @@
+9000 50 80 25
+# First line of file must contain four integers:  
+# 1.  Check time in milliseconds -- if PMT current is above normal threshold
+#     at some time and again above it "check time" later, pixel gets suppressed
+# 2.  Normal threshold for suppressing pixels
+# 4.  High threshold for immediately suppressing pixels.
+# 4.  Pattern threshold -- if 3 adjacent pixels are above this threshold, then
+#     suppress all three immediately.

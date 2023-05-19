@@ -1,0 +1,9 @@
+# Awk script for reducing inner half of camera to 1/4 nominal gain.
+# Assumes will be run on default HV settings, eg, TX_default.hv files in
+# ../HVFiles
+# 
+# Then from within vhv (or hvac), go to File->Load File to load the new HV
+# settings.
+
+$1<=250  { printf "%-4d%4d\n", $1, $2 }
+$1>250 { printf "%-4d%4d\n", $1, 1.05*$2+0.5 }

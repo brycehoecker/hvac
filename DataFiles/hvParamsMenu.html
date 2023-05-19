@@ -1,0 +1,31 @@
+<h1 align="center">HV Params Menu</h1>
+
+<h2 align="center">Commands</h2>
+<table border="2" cellspacing="2">
+<tr>
+<td width=120>Scale to... %</td><td>  Opens a dialog box in which you can enter a percentage by which to scale the voltages from their current values.</td>
+</tr> <tr>
+<td>Offset by... V</td><td>   Opens a dialog box in which you can enter a voltage by which to offset all pixels.</td>
+</tr> <tr>
+<td>Set All Pixels to... V</td><td>  Opens a dialog box in which you can enter a voltage to which to set all pixels.</td>
+</tr> <tr>
+<td>Set AutoResponse Params</td><td>  Opens a dialog box for configuring how vhv responds to high pixel currents.</td>
+</tr> <tr>
+<td>Flat Field</td><td>Not yet tested!  Opens a dialog box that allows you to (in principle) flatfield the camera based on the PMT currents.</td>
+</tr>
+</table>
+
+<h2 align="center">Usage</h2>
+<table border="2" cellspacing="2">
+<tr>
+<td width=120>Setting the autoresponse parameters</td><td> 
+<p>By default, AutoResponse is turned on.  It can be disabled at the command line via the "-noauto" flag or disabled in the AutoResponse dialog box by unchecking "Turn AutoResponse ON."</p>
+<p>By default, "Restore when Stars Clear" is off -- checking this box will cause vhv to guess whether a nearby (within 0.25 deg) star is responsible for a pixel's high current, and if so to periodically check whether that star has moved far enough away to try restoring it.  "Far enough away" is defined as the distance between the star and the pixel at the time the pixel suppresses plus a small safety margin set in the "Restore Margin" box. </td>
+</tr> <tr>
+<td>Flatfielding</td><td> </td>
+</tr>
+</table>
+
+
+
+  <p> Please report any problems or comments to Brian Humensky at humensky@uchicago.edu -- 773-702-7863(office) -- 773-968-6765 (cell) </p>

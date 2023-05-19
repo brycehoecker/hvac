@@ -1,0 +1,8 @@
+# Awk script for reducing the nominal HV to 81 percent, for reduced HV runs.
+# Assumes will be run on default HV settings, eg, TX_default.hv files in
+# ../HVFiles
+# 
+# Then from within vhv (or hvac), go to File->Load File to load the new HV
+# settings.
+
+$1<500  { printf "%-4d%4d\n", $1, 0.81*$2+0.5 }

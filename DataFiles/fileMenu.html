@@ -1,0 +1,34 @@
+<h1 align="center">File Menu</h1>
+
+<h2 align="center">Commands</h2>
+<table border="2" cellspacing="2">
+<tr>
+<td>Read Voltages from DB:</td><td>  reads HV settings from the database.</td>
+</tr> <tr>
+<td>Write Voltages to DB:</td><td>   writes HV settings to the database AND generates a text file named for the current date and time AND updates the link default.hv to point to that new file.</td>
+</tr> <tr>
+<td>Load File:</td><td>  loads HV settings from a text file.</td>
+</tr> <tr>
+<td>Save File:</td><td>  saves HV settings to a text file.</td>
+</tr> <tr>
+<td>Exit:</td><td>  quits vhv.</td>
+</tr>
+</table>
+
+<h2 align="center">Usage</h2>
+<table border="2" cellspacing="2">
+<tr>
+<td> On startup</td><td>  by default, vhv will read voltages from the database and start with the power off.  You can override this behavior from the command line.  The "-hvfile" option allows you to specify a text file to read from instead of the database (still starts with power off).  The "-recover" option asks vhv to start up using the current voltage/power settings in the HV crates (useful for recovering from a vhv crash in the middle of a run!).</td>
+</tr> <tr>
+<td> To permanently update the HV settings</td><td>  Select "Write to DB".</td>
+</tr> <tr>
+<td> To save a set of HV values for a special test</td><td>  Select "Save File" and give an informative name to your file.</td>
+</tr> <tr>
+<td> To read the default HV settings</td><td>  Select "Read from DB".</td>
+</tr> <tr>
+<td> If the database is inaccessible</td><td>  on startup, before the main window opens you"ll get a dialog box asking you to open an HV file.  Select your favorite -- note that default.hv is linked to a file that matches what"s in the database.</td>
+</tr>
+</table>
+<p> Also, vhv periodically writes the current settings to a file "now.hv" -- so if you have been adjusting voltages and vhv crashes, this file is a useful recovery point.</p>
+
+  <p> Please report any problems or comments to Brian Humensky at humensky@uchicago.edu -- 773-702-7863(office) -- 773-968-6765 (cell) </p>

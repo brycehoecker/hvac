@@ -1,0 +1,30 @@
+# Awk script for flatfielding HV settings based on a new set of gain values.
+# Assumes gains are produced by evndisp and are in a text file with three
+# columns:
+# 		pixel
+#		gain
+#		gain rms
+#
+# Also needs the current HV settings, which should be in 
+# /usr/local/veritas/SP05/vhv/HVFiles/T<telID>_default.hv 
+# which contains two columns:
+#		pixel
+#		voltage
+#
+# Run this script like so (where the below 3 lines are all one long command):
+#
+# paste <gainfile> /usr/local/veritas/SP05/vhv/HVFiles/T<telID>_default.hv |
+# awk -f flat.wk > 
+# /usr/local/veritas/SP05/vhv/HVFiles/T<telID>_flatfield_<date_and_time>.hv
+#
+# where <gainfile> is the evndisp gain file (.gain) produced from a laser run
+# (vegas output formatted the same way as evndisp should also work).
+# <telID> is the telescope ID number, 1-4.
+# <date_and_time> is the current UTC date and time in a format like 
+# yyyyddmm_hhmm.
+# 
+# Then from within vhv (or hvac), go to File->Load File to load the new HV
+# settings.
+
+$2>0.2 && $2<5.0   { printf "%-5d%4d\n", $4, exp( log($5)+log(1./$2)/7. )+0.5 }
+$2<=0.2 || $2>=5.0 { printf "%-5d%4d\n", $4, $5 }

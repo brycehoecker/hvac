@@ -1,0 +1,14 @@
+#!/usr/bin/perl
+# Install this in /usr/local/bin as "omni-config"
+
+foreach $arg (@ARGV) {
+	if ($arg eq '--cflags') {
+		print "-D__x86__ -D__linux__ -D__OSVERSION__=2\n";
+	} elsif ($arg eq '--libs') {
+		print "-lomniORB4 -lomnithread\n";
+	} else {
+		print STDERR "Unrecognized command: $arg\n";
+		exit 1;
+	}
+}
+

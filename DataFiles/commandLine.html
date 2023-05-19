@@ -1,0 +1,33 @@
+<h1 align="center">Command Line Options</h1>
+
+<table border="2" cellspacing="2">
+<tr>
+<td>-h:</td><td>  print this usage information.</td>  
+</tr> <tr>
+<td>-nodb:</td><td>  turn database logging off (on by default). 
+  Information is still logged to local text files
+  in $VHVDIR/DBLogs.  </td>
+</tr> <tr>
+<td>-noauto:</td><td> turn automatic response to high pixel currents off 
+    (on by default).  </td>
+</tr> <tr>
+<td>-recover:</td><td> start vhv in recovery mode:  pixel voltage and 
+    power are read from HV crates, rather than taken 
+    from default file.  Useful when vhv crashes in the 
+    middle of a run.  </td>
+</tr> <tr>
+<td>-nocrates:</td><td> disable connection to HV crates to run in a test
+    mode.  </td>
+</tr> <tr>
+<td>-nocurrents:</td><td> disable connection to current monitor to run in
+    a test mode.  Also disables automatic response to 
+    high pixel currents.  </td>
+</tr> <tr>
+<td>-hvfile "filename":</td><td> read HV settings from "filename" rather 
+  than from database.  </td>
+</tr>
+</table>
+
+
+  <p> Please report any problems or comments to Brian Humensky at humensky@uchicago.edu -- 773-702-7863 (office) -- 773-968-6765 (cell) </p>
+

@@ -1,0 +1,2 @@
+BEGIN { max = 0 ; }
+$5>max { max = $5; print max;}
