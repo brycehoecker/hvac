@@ -1,0 +1,23 @@
+// server.idl
+#ifndef __ARRAY_FUNCTIONS_IDL__
+#define __ARRAY_FUNCTIONS_IDL__
+
+interface VHVArrayFunctions {
+  void quitVHV();
+  void loadProductionHV();
+  void saveProductionHV();
+//   void loadHVFile( in string hv_filename );
+//   void saveHVFile( in string hv_filename );
+  void allON();
+  void allOFF();
+  void pixelON( in short pixel );
+  void pixelOFF( in short pixel );
+  void pixelSuppress( in short pixel );
+  void pixelRestore( in short pixel );
+  void pixelSetHV( in short pixel, in float voltage );
+  void loggingON();
+  void loggingOFF();
+  void alive();
+};
+
+#endif 

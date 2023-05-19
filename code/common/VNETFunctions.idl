@@ -1,0 +1,188 @@
+#ifndef __FUNCTIONS_IDL__
+#define __FUNCTIONS_IDL__
+
+module VHVCommunications {
+
+  typedef sequence< float > VHVFloatSeq;
+  typedef sequence< boolean > VHVBoolSeq;
+  typedef sequence< short > VHVShortSeq;
+  typedef sequence< unsigned short > VHVUShortSeq;
+  typedef sequence< string > VHVStringSeq;
+
+  struct autoParams {
+    boolean autoEnable;
+    boolean autoRestoreEnable;
+    short   threshold;
+    short   hiThreshold;
+    short   patternThreshold;
+    short   patternMultiplicity;
+    float   restoreMargin;
+    float   patternRestoreMargin;
+    short   checkTime;
+    short   recentTime;
+  };
+
+  struct fdbkParams {
+    boolean fFeedbackEnabled;
+    boolean fOldSchool;
+    short   fThreshold;
+    short   fHiThreshold;
+    short   fPatternThreshold;
+    short   fPatternMultiplicity;
+    float   fRestoreMargin;
+    short   fMeasurementsPerCycle;
+    short   fMinTimeBeforeRestore;
+    short   fNumberOfFeedbackLevels;
+    float   fGainScaling;
+    float   fSafetyFactor;
+    short   fRestoreAttemptTime;
+    float   fMinAbsPositionChange;
+    float   fPatternDistanceDrop;
+    float   fPSF;
+    short   fCyclesPerFeedbackTest;
+  };
+
+  interface VNETTransfer
+  {
+    void pixelSetVReq( in short pixel, in float voltage );
+    float pixelGetVSet( in short pixel );
+    float pixelGetVReq( in short pixel );
+    float pixelGetVTrue( in short pixel );
+    void allSetHV( in float voltage );
+    VHVFloatSeq allGetVSet();
+    VHVFloatSeq allGetVReq();
+    VHVFloatSeq allGetVTrue();
+    void allOffsetHV( in float voltage );
+    void allScaleHV( in float percent );
+
+    void writeVoltagesToDB();
+    void readVoltagesFromDB();
+    //   void writeHVFile( in string filename ); // syntax!
+    //   void readHVFile( in string filename );  // syntax!
+
+    void allOn();
+    void allOff();
+    VHVBoolSeq allGetPowerStatus();
+    boolean pixelGetPowerStatus( in short pixel );
+    void pixelOn( in short pixel );
+    void pixelOff( in short pixel );
+
+    void pixelSuppress( in short pixel );
+    void pixelRestore( in short pixel );
+    void allSuppress();
+    void allRestore();
+    void restoreRecent();
+    boolean pixelGetSuppressionStatus( in short pixel );
+    VHVBoolSeq allGetSuppressionStatus();
+
+    void loggingOn();
+    void loggingOff();
+    boolean getLoggingState();
+    void alive();
+    void quitVHV();
+    void connectToHVAC();
+    void disconnectFromHVAC();
+
+    void markPixelDisabled( in short pixel );
+    void unmarkPixelDisabled( in short pixel );
+    boolean pixelGetDisabledStatus( in short pixel );
+    VHVBoolSeq allGetDisabledStatus();
+    void markPixelNoAuto( in short pixel );
+    void unmarkPixelNoAuto( in short pixel );
+    boolean pixelGetAutoStatus( in short pixel );
+    VHVBoolSeq allGetAutoStatus();
+
+    void setAutoResponseParams( in autoParams params );
+    autoParams getAutoResponseParams();
+
+    void setFeedbackParams( in fdbkParams params );
+    fdbkParams getFeedbackParams();
+
+    void setTelescopeTarget( in short targetIndex );
+    void setRA( in float ra );
+    void setDec( in float dec );
+    void takeStarControl();
+    void releaseStarControl();
+    //   void showStars();
+    //   void hideStars();
+    //   void showArcs();
+    //   void hideArcs();
+    //   vector< any > getStarList(); // syntax!
+
+    short getNumberOfPMTs();
+    short getNumberOfBoards();
+    short getNumberOfCrates();
+    boolean getCrateStatus( in short crate );
+    VHVShortSeq getHVCrate();
+    VHVShortSeq getHVSlot();
+    VHVShortSeq getHVChannel();
+    VHVShortSeq getStatus();
+    VHVFloatSeq getCurrent();
+    VHVShortSeq getBoardCrate();
+    VHVShortSeq getBoardSlot();
+    VHVFloatSeq getBoardVSet();
+    VHVFloatSeq getBoardVReq();
+    VHVUShortSeq getHWStatus();
+    void setBoardVReq( in short board, in float voltage );
+    VHVFloatSeq getBoardVTrue();
+    VHVFloatSeq getBoardVMax();
+    VHVBoolSeq getBoardPower();
+    void setBoardPower( in short board, in boolean powerState );
+    void setAllBoardPower( in boolean powerState );
+    VHVShortSeq getBoardRampUp();
+    VHVShortSeq getBoardRampDown();
+    void setBoardRampUp( in short board, in short ramp );
+    void setAllBoardRampUp( in short ramp );
+    void setBoardRampDown( in short board, in short ramp );
+    void setAllBoardRampDown( in short ramp );
+    VHVFloatSeq getBoardIMax();
+    void setBoardIMax( in short board, in float iMax );
+    void setAllBoardIMax( in float iMax );
+    VHVFloatSeq getBoardCurrent();
+    VHVFloatSeq getBoardTemp();
+    VHVBoolSeq getBoardActive();
+    void setBoardActive( in short board, in boolean active );
+    void setAllBoardActive( in boolean active );
+    short getCurrentsStatus();
+    short getCameraTemp();
+    short getCameraHum();
+    short getSensor( in short id );
+    VHVStringSeq getMessages();
+    void globalFeedbackReset();
+    void pixelFeedbackReset( in short ch );
+    void globalFeedbackOn();
+    void pixelFeedbackOn( in short ch );
+    void globalFeedbackOff();
+    void pixelFeedbackOff( in short ch );
+    void globalRefreshVoltageLevels();
+    boolean isGlobalFeedbackEnabled();
+    boolean isPixelFeedbackEnabled( in short ch );
+    VHVBoolSeq isAllPixelFeedbackEnabled();
+    VHVShortSeq getFeedbackLevel();
+    short getStatusPeriod();
+    void setStatusPeriod( in short period );
+
+    boolean getStateLimitBoardVoltages();
+    void enableLimitBoardVoltages();
+    void disableLimitBoardVoltages();
+
+    short getHVStatus();//determine if HV is off before reading ADC offsets
+    void setPixelStatus(in short pixel, in short status);//send pixel status according
+                                                         //0=off
+                                                         //1=on
+                                                         //2=bad
+//     void sendCurrent(in short pixel, in float value);//send values across 1 by 1
+//     void updateHVDisplay();//once the pixel value array has been filled
+//     //send a command to introduce the display update into the 
+//     //QT event loop. (not currently used)
+//     void setPixelLow(in short pixel);//turn down a pixel in a bright field
+//     void restorePixel(in short pixel);//restore a low pixel (not currently used)
+//     void killPixel(in short pixel);//turn off a pixel
+//     void killAll();//turn them all off and hope for the best
+    //    void setHVStatus(in short value);//could add this to ensure HV not switched on whilst imon not reading?
+
+  }; // end of interface VNETTransfer
+
+}; // end of module VHVCommunications
+
+#endif 

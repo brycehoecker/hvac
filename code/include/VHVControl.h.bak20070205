@@ -1,0 +1,274 @@
+///////////////////////////////////////////////////////////////////////////////
+// $Id: VHVControl.h,v 1.3 2006/03/28 04:50:53 humensky Exp $
+//
+// Filename : 
+// Created  : Tue Mar 19 2002 by Jim Hinton
+///////////////////////////////////////////////////////////////////////////////
+#ifndef VHVCONTROL_H
+#define VHVCONTROL_H
+
+/** \file VHVControl.h
+ * \brief Header file for classes in VHVControl.cpp (all associated with camera display widget).
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <iomanip>
+
+#include <qcanvas.h>
+#include <qpainter.h>
+#include <qcolor.h>
+
+#include "VHV.h"
+/* #include "VGatherData.h" */
+#include "VHVData.h"
+#include "VStar.h"
+/* #include "VNETFunctionsServerThread.h" */
+#include "VNETClientThread.h"
+/* #include "VHVDBLogger.h" */
+#include <VDBHighVoltage.h>
+/* #include "VHVArrayServer.h" */
+
+#define PIXEL_SIZE       0.15     /**< Angular scale of canvas (degrees/pixel) */
+#define CAMERA_RADIUS    20.3     /**< Number of PMT radii to edge of camera */
+#define NUMLINES 200
+#define NUMLABELS 9
+
+/** \bool kDBLogging
+ *  Flag for logging to Database.  Default is off (false).
+ */
+
+class VPMTIcon;
+class VHVFrame;
+class VSelector;
+class VPMTIndicator;
+
+static const char kDefaultHVFile[NUMTEL][200] = {
+    "/usr/local/veritas/SP05/hvac/HVFiles/T1_default.hv",
+    "/usr/local/veritas/SP05/hvac/HVFiles/T2_default.hv",
+    "/usr/local/veritas/SP05/hvac/HVFiles/T3_default.hv",
+    "/usr/local/veritas/SP05/hvac/HVFiles/T4_default.hv" };
+/* static const char kDefaultMapFile[200] =  */
+/*     "/usr/local/veritas/SP05/hvac/HVFiles/hv_pixel.map"; */
+static char kBrokenPixelFile[200];
+
+//---------------------------------------------------------
+
+class VHVControl : public QCanvas {
+
+  Q_OBJECT    
+
+ public:
+  VHVControl( int telID, int siz, QWidget* parent=0, const char* name=0 );
+  virtual ~VHVControl();
+  void drawCamera();
+  void redraw();
+  void allOn();
+  void allOff();
+  void restoreAll(); /* Added TBH 20040218 */
+  void restoreRecent();
+  void suppressAll(); /* Added TBH 20050211 */
+  void report(char* filename);
+  void drawSelected(VPMTIcon* p); 
+  int  getNumberOfPMTs();
+  VPMTIcon  *getPMT(int chan);
+  VStarField* getStarField();
+  void loadStars();
+  void drawStars();
+  void hideStars(); 
+  void showArcs();
+  void hideArcs(); 
+  void changeMag( double mag );
+  void readVoltagesFromDB();
+  void writeVoltagesToDB();
+  void readCameraMapFromDB();
+  void writeCameraMapToDB();
+  void scaleVoltages( int percent );
+  void offsetVoltages( int voltage );
+  void setAllVoltages( int voltage );
+  void markAsBroken( int brokenpixel );
+  void markAsUnBroken( int brokenpixel );
+  void markPixelNoAuto( int pixel );
+  void unmarkPixelNoAuto( int pixel );
+  VHVData *getData(); /* Added TBH 20041012 */
+  VHVFrame *getFrame();
+  VNETClientThread *getVHVClient();
+  void setRecentTimeLimit( int limit );
+  int getRecentTimeLimit();
+  void loadHV( const char filename[] );
+  void saveHV( const char filename[] );
+  int getPMTCentreX( int chan );
+  int getPMTCentreY( int chan );
+  int getTelescopeID();
+
+  void initClient();
+  void quitVHV();
+  void connectToHVAC();
+  void disconnectFromHVAC();
+  void loggingOn();
+  void loggingOff();
+  void updateData();
+  void takeStarControl();
+  void releaseStarControl();
+
+  void pixelSetVSet( int chan, int voltage );
+  float pixelGetVSet( int chan );
+  float pixelGetVTrue( int chan );
+  void setPower( int chan, bool power );
+  void setBoardPower( int board, bool power );
+  bool getPower( int chan );
+  bool getBoardPower( int board );
+  void suppressPixel( int chan );
+  void restorePixel( int chan );
+
+  public slots:
+
+ private:
+  int fTelescopeID;
+  int fNumberPMTs;
+  int fSize;
+  int fCentreX;
+  int fCentreY;
+  VPMTIcon*   fPMTs[MAX_PMTS];
+  VSelector*  fSelection;
+  VHVFrame*   fFrame;
+  VStarField* fStars;
+  VHVData*    fData;
+  VNETClientThread* fVHVClient;
+  QTimer* fTimer;
+  int fRecentTimeLimit;
+
+};
+
+/**********************************************/
+
+class VHVControlView : public QCanvasView {
+  Q_OBJECT
+    
+public:  
+  VHVControlView(VHVControl* control, QWidget* parent=0, VHVFrame* frame=0,
+		 const char* name=0, WFlags f=0);
+  virtual ~VHVControlView();
+
+protected:
+  void contentsMousePressEvent(QMouseEvent* mouse);
+
+signals:
+  void status(const QString& string);  /**< Signal status */
+  void clickedPMT(VPMTIcon *pmt, QMouseEvent* mouse, int ); /**< Signal PMT clicked */
+
+private:
+  VHVFrame   *fFrame;
+  VHVControl *fControl;
+
+};
+
+/**********************************************/
+
+static const int pmtRTTI = 95430;
+
+class VPMTIcon : public QCanvasPolygon  {
+
+ public:
+  VPMTIcon(QCanvas* canvas, VHVData *data, VHVFrame *mf, int chan,
+	   int tel );
+  virtual ~VPMTIcon();
+  void draw( int x, int y, int size );
+  void draw();
+  int rtti () const { return pmtRTTI; } /**< Run Time Type Indentification */
+  VHVData* getData();
+  int getChannel();
+  int getTelescopeID();
+
+ private:
+
+  int       fTelescopeID;
+  int       fChannel;
+  VHVData  *fData;
+  VHVFrame *fFrame;
+  QCanvas  *fCanvas;
+
+};
+
+/**********************************************/
+
+class VSelector : public QCanvasPolygonalItem  {
+  
+ public:
+  VSelector(int size, QCanvas *canvas );
+  virtual ~VSelector();
+  void drawShape( QPainter &p );
+  QPointArray areaPoints() const;
+ private:
+  VHVControl *fControl;
+  QPoint fStart[6];
+  QPoint fEnd[6];
+
+};
+
+/**********************************************/
+
+// Declare getColor functions (defined in VHVControl.cpp)
+QColor getColor(double val, double min, double max, int scheme);
+QColor getColor(int val, int min, int max, int scheme);
+
+/**********************************************/
+
+class VCamInfo  {
+  
+ public:
+  VCamInfo(VHVFrame *frame, QCanvas *canvas, VHVData *data, int id );
+  ~VCamInfo();
+  void redraw();
+  void drawLegend(); 
+
+ private:
+  int fTelescopeID;
+  QCanvasText* fTelescopeLabel;
+  QCanvas* fCanvas;
+  VHVFrame* fFrame;
+  VHVData* fData;
+  QCanvasText* fMaxPMTCurrent;
+  QCanvasText* fAvePMTCurrent;
+  int fNumberOfPMTs;
+  QCanvasLine* fLegend[NUMLINES];
+  QCanvasText* fText[NUMLABELS];
+  QCanvasPolygon* fNoAutoIcon;
+  QCanvasPolygon* fSuppressedIcon;
+  QCanvasPolygon* fBrokenIcon;
+  QCanvasText* fNoAutoLabel;
+  QCanvasText* fSuppressedLabel;
+  QCanvasText* fBrokenLabel;
+/*   QCanvasText* fTemp; */
+/*   QCanvasText* fHum; */
+ QCanvasText* fSensor[NUMSENSORS];
+};
+
+/**********************************************/
+
+class VPMTIndicator {
+
+ public:
+  VPMTIndicator( VHVFrame *frame, QCanvas *canvas, 
+		 VHVData *data, int size, int chan );
+  ~VPMTIndicator();
+  void redraw();
+  void setPosition( int x, int y );
+
+ private:
+  QCanvas *fCanvas;
+  VHVFrame *fFrame;
+  VHVData *fData;
+  QCanvasLine *fl1;
+  QCanvasLine *fl2;
+  QCanvasLine *fl3;
+  QCanvasLine *fl4;
+  QCanvasLine *fl5;
+  QCanvasLine *fl6;
+  int fX;
+  int fY;
+  int fChannel;
+/*   int fCounter; */
+};
+
+#endif

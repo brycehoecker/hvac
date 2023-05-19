@@ -1,0 +1,153 @@
+// VNetPCS.idl - skeleton corba server program
+
+#ifndef VNetPCS_IDL
+#define VNetPCS_IDL
+
+#include "VEnums.idl"
+
+struct nEquatCoord {
+  double RA;
+  double Decl;
+  double epoch;
+  boolean valid;
+};
+
+struct nHorizCoord {
+  double Az;
+  double Elev;
+  boolean valid;
+};
+
+struct nTime {
+  unsigned short Year;
+  unsigned short DayOfYear;
+  unsigned short Month;
+  unsigned short DayOfMonth;
+  unsigned short DayOfWeek;
+  unsigned short Hour;
+  unsigned short Minute;
+  unsigned short Second;
+  unsigned long uSecond;
+};
+
+typedef char nStatMsg_t[80];
+
+struct PCSStatus {
+
+  // Equatorial (RA, Decl)
+  nEquatCoord fEquatCoordREQ;
+  nEquatCoord fEquatCoordCOM;
+  nEquatCoord fEquatCoordREP;
+  nEquatCoord fEquatCoordACT;
+  nEquatCoord fEquatCoordERR;
+  // Horizon (Az, Elev)
+  nHorizCoord fHorizCoordREQ;
+  nHorizCoord fHorizCoordCOM;
+  nHorizCoord fHorizCoordREP;
+  nHorizCoord fHorizCoordACT;
+  nHorizCoord fHorizCoordERR;
+  // Auxiliary
+  nHorizCoord fHorizCoordAUX;
+  // Velocities
+  nHorizCoord fHorizVelCOM;
+  nHorizCoord fHorizVelACT;
+
+  // STATUS FLAGS:
+  // Aux Status
+  boolean fRelayOne;
+  boolean fRelayTwo;
+  double fAnalogOne;
+  double fAnalogTwo;
+  // Comm Status
+  boolean fInvalidCommand;
+  boolean fBadFrame;
+  boolean fInputOverrun;
+  boolean fOutputOverrun;
+  // Drive Status
+  EDriveStatus fAzElevDrive;
+  boolean fAzServoOneFail;
+  boolean fAzServoTwoFail;
+  boolean fElevServoOneFail;
+  boolean fElevServoTwoFail;
+  // Interlock Status
+  boolean fAzDoor;
+  boolean fElevDoor;
+  boolean fAzStowPin;
+  boolean fElevStowPin;
+  boolean fSafeswitch;
+  boolean fGeneral;
+  boolean fAzPullCord;
+  // Limit Status
+  boolean fCW;
+  boolean fCCW;
+  boolean fLOW;
+  boolean fHIGH;
+  boolean fStowCW;
+  boolean fStowCCW;
+  boolean fStowLOW;
+
+  // MODES, COMMANDS, ETC:
+  //
+  char fPIUId;
+  //   nStatMsg_t fPIUMsg;
+  //   nStatMsg_t fStatMsg;
+
+  EMntCmnd fMntCmnd;
+  EMntStatus fMntStatus;
+
+  EAzDir fAzDirREQ;
+  EAzDir fAzDirCOM;
+  EAzDir fAzDir;
+  EAzDir fAzMotn;
+  long fAzWrap;
+
+  EElevDir fElevDirCOM;
+  EElevDir fElevDir;
+  EElevDir fElevMotn;
+
+  long fRoute;
+  boolean fTPoint;
+
+  // TIMES
+  //
+  nTime fVPCSTm;
+  nTime fCmndStatUpdtTm;
+  nTime fPIUStatUpdtTm;
+};
+
+interface VNetPCS {
+  // progName - name of subsystem program.
+  const string progName = "VPCS";
+  
+  // objName - name of this object
+  const string objName = "VNetPCS";
+  
+  void nSet_TPoint(in boolean tpoint,
+		   in long netpcs_key);
+  
+  void nGet_PCSStatus(out PCSStatus status);
+  
+  boolean nExit_Threads(in long netpcs_key);
+  
+  boolean nGoTo_AzElev(in nHorizCoord hzc,
+ 		       in long netpcs_key);
+  
+  boolean nGoTo_AzElev_Dir(in nHorizCoord hzc,
+			   in EAzDir dir,
+			   in long netpcs_key);
+  
+  boolean nGoTo_RADecl(in nEquatCoord eqc,
+		       in long netpcs_key);
+  
+  boolean nGoTo_RADecl_Dir(in nEquatCoord eqc,
+			   in EAzDir dir,
+			   in long netpcs_key);
+  
+  boolean nHALT(in long netpcs_key);
+  
+  boolean nSTOP(in long netpcs_key);
+  
+  boolean nSTANDBY(in long netpcs_key);
+};
+
+#endif // SKEL_IDL
