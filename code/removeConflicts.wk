@@ -1,0 +1,7 @@
+BEGIN { printflag1=1; printflag2=1 }
+
+$1!="<<<<<<<"                               { printflag1=1; }
+$1=="<<<<<<<"                               { printflag1=0; }
+$1=="======="                               { printflag2=0; }
+printflag1==1&&printflag2==1&&$1!=">>>>>>>" { print; }
+$1==">>>>>>>"                               { printflag2=1; }

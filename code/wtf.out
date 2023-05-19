@@ -1,0 +1,28 @@
+hvac: log filename is /home/humensky/VLogs/hvaclog20101225.log
+Hardwired autoRestore/Feedback Parameters:
+fCheckTime=0  kOldSchool=0  fThreshold=40  fHiThreshold=80  fPatternThreshold=25  fPatternMultiplicity=3  fRestoreMargin=0.0299995  fMeasurementsPerCycle=9  fMinTimeBeforeRestore=60  fNumberOfFeedbackLevels=0  fGainScaling=0.5  fSafetyFactor=0.9  fRestoreAttemptTime=60  fMinAbsPositionChange=0  fPatternDistanceDrop=0.149997  fPSF=0.0799987  fPMTIndex=7.2  fRA=999  fDec=99
+hvac:  VNETClientThread::getObjectReference(): HighVoltageT1
+	Caught a CORBA::SystemException while using the naming
+	service:    TRANSIENT_ConnectFailed
+	Must not be an active telescope.
+Hardwired autoRestore/Feedback Parameters:
+fCheckTime=1986097767  kOldSchool=0  fThreshold=40  fHiThreshold=80  fPatternThreshold=25  fPatternMultiplicity=3  fRestoreMargin=0.0299995  fMeasurementsPerCycle=9  fMinTimeBeforeRestore=60  fNumberOfFeedbackLevels=0  fGainScaling=0.5  fSafetyFactor=0.9  fRestoreAttemptTime=60  fMinAbsPositionChange=0  fPatternDistanceDrop=0.149997  fPSF=0.0799987  fPMTIndex=7.2  fRA=999  fDec=99
+hvac:  VNETClientThread::getObjectReference(): HighVoltageT2
+	Caught a CORBA::SystemException while using the naming
+	service:    TRANSIENT_ConnectFailed
+	Must not be an active telescope.
+Hardwired autoRestore/Feedback Parameters:
+fCheckTime=0  kOldSchool=0  fThreshold=40  fHiThreshold=80  fPatternThreshold=25  fPatternMultiplicity=3  fRestoreMargin=0.0299995  fMeasurementsPerCycle=9  fMinTimeBeforeRestore=60  fNumberOfFeedbackLevels=0  fGainScaling=0.5  fSafetyFactor=0.9  fRestoreAttemptTime=60  fMinAbsPositionChange=0  fPatternDistanceDrop=0.149997  fPSF=0.0799987  fPMTIndex=7.2  fRA=999  fDec=99
+hvac:  VNETClientThread::getObjectReference(): HighVoltageT3
+	Caught a CORBA::SystemException while using the naming
+	service:    TRANSIENT_ConnectFailed
+	Must not be an active telescope.
+Hardwired autoRestore/Feedback Parameters:
+fCheckTime=0  kOldSchool=0  fThreshold=40  fHiThreshold=80  fPatternThreshold=25  fPatternMultiplicity=3  fRestoreMargin=0.0299995  fMeasurementsPerCycle=9  fMinTimeBeforeRestore=60  fNumberOfFeedbackLevels=0  fGainScaling=0.5  fSafetyFactor=0.9  fRestoreAttemptTime=60  fMinAbsPositionChange=0  fPatternDistanceDrop=0.149997  fPSF=0.0799987  fPMTIndex=7.2  fRA=999  fDec=99
+hvac:  VNETClientThread::getObjectReference(): HighVoltageT4
+hvac:  VNETClientThread():  Object connected!
+QObject::connect: No such signal QCheckBox::toggled()
+QObject::connect:  (sender name:   'unnamed')
+QObject::connect:  (receiver name: '')
+hvac:  VHVFrame::VHVFrame():  Starting main update timer -- 
+	updates every 500 ms.

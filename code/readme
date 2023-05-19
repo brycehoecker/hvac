@@ -1,0 +1,11 @@
+This directory is the root of the source tree for 
+the VERITAS Hogh Voltage project.
+
+To compile: 			make
+To generate makefile:   	tmake vhv.pro -o Makefile
+To generate documentation:	doxygen
+To execute:			vhv
+
+Full html documentation can be found in docs/html.
+
+Jim Hinton - 6th March 2002
